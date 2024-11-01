@@ -1,47 +1,50 @@
 package com.example.pawmatch
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.pawmatch.ui.theme.PawMatchTheme
+import com.example.pawmatch.ui.theme.MyTheme
+import com.example.pawmatch.view.MainView
 
-class MainActivity : ComponentActivity() {
+@ExperimentalAnimationApi
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            PawMatchTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val currentTheme = isSystemInDarkTheme()
+            val toggleTheme: () -> Unit = {
+                if (currentTheme) setDayTheme() else setDarkTheme()
+            }
+            MyTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(color = MaterialTheme.colors.background) {
+                    MainView(toggleTheme)
                 }
             }
         }
     }
+
+    private fun setDayTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    private fun setDarkTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
 }
 
+@ExperimentalAnimationApi
+@Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PawMatchTheme {
-        Greeting("Android")
+fun DarkPreview() {
+    MyTheme(darkTheme = true) {
+        MainView(toggleTheme = { })
     }
 }

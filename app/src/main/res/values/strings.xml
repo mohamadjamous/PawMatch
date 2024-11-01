@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PawMatch</string>
+    <string name="text_home">Home</string>
+    <string name="text_details">Info</string>
 </resources>
