@@ -1,4 +1,5 @@
 # PawMatch
+An Android marketplace app designed to connect pet owners with prospective pet adopters, fostering an easy and reliable way to find the perfect match for pets needing new homes.
 
 
 ### Created Using
